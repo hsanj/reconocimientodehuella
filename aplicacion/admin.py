@@ -5,18 +5,18 @@ from django.contrib import admin
 
 from aplicacion.models import *
 
-@admin.register(Cargo)
-class CargoAdmin(admin.ModelAdmin):
+@admin.register(Medicamento)
+class MedicamentoAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(TipoContratacion)
-class TipoContratacionAdmin(admin.ModelAdmin):
+@admin.register(Doctor)
+class DoctorAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(Empleado)
-class EmpleadoAdmin(admin.ModelAdmin):
+@admin.register(Enfermedad)
+class EnfermedadAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(TiemposAccesso)
-class TiemposAccessoAdmin(admin.ModelAdmin):
+@admin.register(Paciente)
+class PacienteAdmin(admin.ModelAdmin):
     pass
