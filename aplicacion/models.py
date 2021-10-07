@@ -1,44 +1,73 @@
 from django.db import models
-
+from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 # Create your models here.
 import datetime
 from django.db import models
 
 
-class Doctor(models.Model):
-    NombreDoc = models.CharField(max_length=50)
-    DireccionDoc = models.CharField(max_length=50)
-    TelefonoDoc = models.CharField(max_length=15)
 
+
+
+
+class Region(models.Model):
+    NombreRegion = models.CharField(max_length=50)
     def __unicode__(self):
-        return self.NombreDoc
+        return self.NombreRegion
     def __str__(self):
-        return self.NombreDoc
+        return self.NombreRegion
 
-class Enfermedad(models.Model):
-    NombreEnfermedad= models.CharField(max_length=50)
-    def __unicode__(self):
-        return self.NombreEnfermedad
-    def __str__(self):
-        return self.NombreEnfermedad
-
-class Medicamento(models.Model):
-    NombreMedicamento= models.CharField(max_length=50)
-    def __unicode__(self):
-        return self.NombreMedicamento
-    def __str__(self):
-        return self.NombreMedicamento
-
-class Paciente(models.Model):
-    NombrePaciente = models.CharField(max_length=50)
-    Doctor = models.ForeignKey('Doctor',
+class Departamento(models.Model):
+    NombreDepartamento = models.CharField(max_length=50)
+    Region = models.ForeignKey('Region',
     on_delete=models.CASCADE,)
-    Enfermedad = models.ForeignKey('Enfermedad',
-    on_delete=models.CASCADE,)
-    Medicamento = models.ForeignKey('Medicamento',
-    on_delete=models.CASCADE,)
-
     def __unicode__(self):
-        return self.NombrePaciente
+        return self.NombreDepartamento
     def __str__(self):
-        return self.NombrePaciente
+        return self.NombreDepartamento
+
+
+class Municipio(models.Model):
+    NombreMunicipo = models.CharField(max_length=50)
+    Departamento = models.ForeignKey('Departamento',
+    on_delete=models.CASCADE,)
+    def __unicode__(self):
+        return self.NombreMunicipo
+    def __str__(self):
+        return self.NombreMunicipo
+
+class Comercio(models.Model):
+    NombreComercio = models.CharField(max_length=50)
+    Patente = models.CharField(max_length=50)
+    Propietario = models.CharField(max_length=50)
+    Municipio= models.ForeignKey('Municipio',
+    on_delete=models.CASCADE,)
+    def __unicode__(self):
+        return self.NombreComercio
+    def __str__(self):
+        return self.NombreComercio
+
+class Sucursal(models.Model):
+    NombreSucursal = models.CharField(max_length=50)
+    Comercio= models.ForeignKey('Comercio',
+    on_delete=models.CASCADE,)
+    Municipio= models.ForeignKey('Municipio',
+    on_delete=models.CASCADE,)
+    def __unicode__(self):
+        return self.NombreSucursal
+    def __str__(self):
+        return self.NombreSucursal
+
+class Queja(models.Model):
+    DesQueja = models.CharField(max_length=500)
+    created_at = models.DateTimeField(('Fecha creación'),
+                                      default=timezone.now)
+    Comercio= models.ForeignKey('Comercio',
+    on_delete=models.CASCADE,)
+    Sucursal= models.ForeignKey('Sucursal',
+    on_delete=models.CASCADE,)
+    def __unicode__(self):
+        return self.NombreSucursal
+    def __str__(self):
+        return self.NombreSucursal
+
