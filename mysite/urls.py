@@ -19,12 +19,10 @@ from aplicacion.views import *
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.urls import path,include
 
 
-app_name = 'aplicacion'
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('formulario_queja',FormularioQueja.as_view(),name='formulario_queja'),
-    
-
+    path('', include('aplicacion.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

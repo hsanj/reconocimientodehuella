@@ -67,7 +67,7 @@ class Queja(models.Model):
     Sucursal= models.ForeignKey('Sucursal',
     on_delete=models.CASCADE,)
     def __unicode__(self):
-        return self.NombreSucursal
+        return self.DesQueja
     def __str__(self):
-        return self.NombreSucursal
+        return self.DesQueja
 

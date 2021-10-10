@@ -1,12 +1,14 @@
-from django.shortcuts import render
-
+from django.contrib import admin, messages
+from django.shortcuts import redirect, render
 # Create your views here.
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
 from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from django.views.generic import TemplateView, FormView, DetailView,RedirectView, UpdateView, DeleteView, ListView,View
-from django.views.generic.base import View
+from django.template import context
+from django.urls.base import reverse_lazy
+from django.views.generic import TemplateView, FormView, DetailView,RedirectView, UpdateView, DeleteView, ListView,View,CreateView
+from .models import Queja
 from .forms import QuejaForm
 
 
@@ -17,3 +19,29 @@ class FormularioQueja(View):
             'form':form,
         }
         return render (request,'queja.html',contexto)
+
+    def post(self,request,*args,**kwargs):
+        
+        form=QuejaForm(request.POST)
+        
+        messages.success(request,'¡QUEJA GENERADA!')
+        if form.is_valid():
+            form.save()
+            return redirect('admin:index')
+        else:
+            contexto ={
+                'form':form,
+            }
+            return render(request,'queja.html',contexto)
+
+class quejaCreateView(CreateView):
+   
+    model=Queja
+    form_class=QuejaForm
+    template_name='queja.html'
+    success_url='admin:index'
+    
+    def get_context_data(self, **kwargs):
+        context=super().get_context_data(**kwargs)
+        context['title']= 'Creacion de queja'        
+        return context
