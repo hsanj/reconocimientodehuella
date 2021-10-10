@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
+from django.urls import reverse
 # Create your models here.
 import datetime
 from django.db import models
@@ -70,4 +71,5 @@ class Queja(models.Model):
         return self.DesQueja
     def __str__(self):
         return self.DesQueja
-
+    def get_absolute_url(self):
+        return reverse('author-detail', kwargs={'pk': self.pk})

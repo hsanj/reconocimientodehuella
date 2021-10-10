@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.template import context
 from django.urls.base import reverse_lazy
 from django.views.generic import TemplateView, FormView, DetailView,RedirectView, UpdateView, DeleteView, ListView,View,CreateView
+#from django.views.generic.edit import CreateView
 from .models import Queja
 from .forms import QuejaForm
 
@@ -34,14 +35,22 @@ class FormularioQueja(View):
             }
             return render(request,'queja.html',contexto)
 
+class QuejaList (ListView):
+    model=Queja
+    template_name='quejalist.html'
+
+
+
+
 class quejaCreateView(CreateView):
    
     model=Queja
+    #fields=['DesQueja']
     form_class=QuejaForm
     template_name='queja.html'
-    success_url='admin:index'
+    success_url=reverse_lazy('erp:list_queja')
     
     def get_context_data(self, **kwargs):
         context=super().get_context_data(**kwargs)
-        context['title']= 'Creacion de queja'        
+        context['title']= 'FORMULARIO QUEJA'        
         return context
